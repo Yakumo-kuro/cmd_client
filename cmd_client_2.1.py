@@ -6,7 +6,7 @@ import os
 import tkinter
 from tkinter import *
 from requests import get
-from configparser import SafeConfigParser
+import subprocess
 
 import socket
 
