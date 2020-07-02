@@ -26,22 +26,22 @@ top.resizable(0,0)
 top.configure(background='PaleTurquoise1')
 
 def main():
-	global id, port, PATH, COMMAND, SAVEPATH, FILEPATH1, FILENAME1, FILEPATH2, FILENAME2
+	global _id, port, PATH, COMMAND, SAVEPATH, FILEPATH1, FILENAME1, FILEPATH2, FILENAME2
 	if stm == "Windows":
 		tkinter.Label(top, text="IPCS:",bg='PaleTurquoise1').grid(row=0, column=0, sticky=W)
-		id = tkinter.Entry(bg='MediumPurple1')
-		id.grid(row=0, column=1)
-		id.insert(1,"10.100.181.164")
+		_id = tkinter.Entry(bg='MediumPurple1')
+		_id.grid(row=0, column=1)
+		_id.insert(1,"10.100.181.164")
 	elif stm == "Linux":
 		tkinter.Label(top, text="IPCS:",bg='PaleTurquoise1').grid(row=0, column=0, sticky=W)
-		id = tkinter.Entry(bg='MediumPurple1')
-		id.grid(row=0, column=1)
-		id.insert(1,"1606I0000010")
+		_id = tkinter.Entry(bg='MediumPurple1')
+		_id.grid(row=0, column=1)
+		_id.insert(1,"1606I0000010")
 	else:
 		tkinter.Label(top, text="IPCS:",bg='PaleTurquoise1').grid(row=0, column=0, sticky=W)
-		id = tkinter.Entry(bg='MediumPurple1')
-		id.grid(row=0, column=1)
-		id.insert(1,"1606I0000010")
+		_id = tkinter.Entry(bg='MediumPurple1')
+		_id.grid(row=0, column=1)
+		_id.insert(1,"1606I0000010")
 	#COMMAND#
 	tkinter.Label(top, text="Port:",bg='PaleTurquoise1').grid(row=1, column=0, sticky=W)
 	port = tkinter.Entry(bg='MediumPurple1')
@@ -84,12 +84,12 @@ def post_data():
 	global IDIP
 	check()
 	if stm == "Windows": 
-		IDIP = ID
+		IDIP = _ID
 	elif stm == "Linux":
-		ph = "avahi-resolve -n -4 " + ID + ".local | awk '{print $2}'"
+		ph = "avahi-resolve -n -4 " + _ID + ".local | awk '{print $2}'"
 		IDIP = subprocess.getoutput(ph)	
 	else:
-		ph = "avahi-resolve -n -4 " + ID + ".local | awk '{print $2}'"
+		ph = "avahi-resolve -n -4 " + _ID + ".local | awk '{print $2}'"
 		IDIP = subprocess.getoutput(ph)
 	url = "http://" + IDIP + ":" + PORT
 	sensor_data = {"data":{
@@ -101,7 +101,7 @@ def post_data():
 		}}
 		
 	req = requests.post(url, json=sensor_data)
-	thread.start_new_thread(take_data,())
+	_thread.start_new_thread(take_data,())
 	
 	
 def take_data():
@@ -112,12 +112,12 @@ def take_data():
 def _download():
 	check()
 	if stm == "Windows": 
-		IDIP = ID
+		IDIP = _ID
 	elif stm == "Linux":
-		ph = "avahi-resolve -n -4 " + ID + ".local | awk '{print $2}'"
+		ph = "avahi-resolve -n -4 " + _ID + ".local | awk '{print $2}'"
 		IDIP = subprocess.getoutput(ph)	
 	else:
-		ph = "avahi-resolve -n -4 " + ID + ".local | awk '{print $2}'"
+		ph = "avahi-resolve -n -4 " + _ID + ".local | awk '{print $2}'"
 		IDIP = subprocess.getoutput(ph)
 	url = "http://" + IDIP + ":" + PORT
 	sensor_data = {"data":{
@@ -152,12 +152,12 @@ def _download():
 def _updata():	
 	check()
 	if stm == "Windows": 
-		IDIP = ID
+		IDIP = _ID
 	elif stm == "Linux":
-		ph = "avahi-resolve -n -4 " + ID + ".local | awk '{print $2}'"
+		ph = "avahi-resolve -n -4 " + _ID + ".local | awk '{print $2}'"
 		IDIP = subprocess.getoutput(ph)	
 	else:
-		ph = "avahi-resolve -n -4 " + ID + ".local | awk '{print $2}'"
+		ph = "avahi-resolve -n -4 " + _ID + ".local | awk '{print $2}'"
 		IDIP = subprocess.getoutput(ph)
 	url = "http://" + IDIP + ":" + PORT
 	sensor_data = {"data":{
@@ -196,8 +196,8 @@ def system():
 
 	
 def check():
-	global ID, PORT, path, command, savepath, filepath1, filename1, filepath2, filename2
-	ID = id.get()
+	global _ID, PORT, path, command, savepath, filepath1, filename1, filepath2, filename2
+	_ID = _id.get()
 	PORT = port.get()
 	path = PATH.get()
 	command = COMMAND.get()
@@ -208,9 +208,9 @@ def check():
 	filename2 = FILENAME2.get()
 
 def _thread1():
-	thread.start_new_thread(_updata,())
+	_thread.start_new_thread(_updata,())
 def _thread2():
-	thread.start_new_thread(_download,())
+	_thread.start_new_thread(_download,())
 	
 if __name__ == '__main__':
 	main()
